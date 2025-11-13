@@ -1,0 +1,49 @@
+.header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 2rem 1.5rem;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+}
+
+.header-content {
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.header-icon {
+  color: white;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.header h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.header-subtitle {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 500;
+  margin: 0;
+  padding-left: 52px;
+}
+
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 2rem;
+  }
+  
+  .header-subtitle {
+    font-size: 0.95rem;
+    padding-left: 0;
+  }
+}

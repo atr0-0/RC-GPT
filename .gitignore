@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Storage (large files - don't commit to git)
+storage/data/
+storage/processed_data/
+storage/vector_store/
+
+# Config (sensitive - don't commit)
+.config/google_credentials.json
+.env
+
+# Archive (old files)
+archive/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Streamlit
+.streamlit/
+
+# Testing
+tests/
+tests/**
+misc/
+archive/data_old/
+frontend/node_modules/
+frontend/dist/

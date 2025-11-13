@@ -1,0 +1,55 @@
+.query-suggestions {
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.suggestions-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #e4e4e7;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.suggestions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.suggestion-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  color: #e4e4e7;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.suggestion-chip:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+  color: white;
+}
+
+.suggestion-chip svg {
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .suggestions-grid {
+    grid-template-columns: 1fr;
+  }
+}
