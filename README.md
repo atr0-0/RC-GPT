@@ -1,4 +1,3 @@
-
 # CaseLawGPT - Supreme Court Tort Law Research Tool
 
 CaseLawGPT is a practical research tool for Indian Supreme Court tort law cases. It provides a modern web interface and backend for searching, filtering, and reading case law, built for lawyers and legal researchers.
