@@ -19,8 +19,9 @@ from langchain.retrievers import EnsembleRetriever
 import re
 
 # Configuration
-VECTOR_STORE_PATH = "../storage/vector_store"
-PROCESSED_DATA_FILE = "../storage/processed_data/all_documents.pkl"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+VECTOR_STORE_PATH = os.path.join(BASE_DIR, "storage", "vector_store")
+PROCESSED_DATA_FILE = os.path.join(BASE_DIR, "storage", "processed_data", "all_documents.pkl")
 MODEL_NAME = "models/gemini-2.0-flash-exp"
 RETRIEVAL_K = 15
 
