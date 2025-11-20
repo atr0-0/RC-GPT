@@ -1,48 +1,37 @@
-# Python
+# Python & Virtual Env
 __pycache__/
 *.py[cod]
-*$py.class
-*.so
-.Python
-*.egg-info/
-dist/
-build/
 venv/
 env/
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
+# Dependencies & Build
+node_modules/
+frontend/node_modules/
+frontend/dist/
+dist/
+build/
+*.egg-info/
 
-# Storage (large files - don't commit to git)
+# Configuration & Secrets
+.env
+google_credentials.json
+
+# Data & Storage
 storage/data/
 storage/processed_data/
 storage/vector_store/
 
-# Config (sensitive - don't commit)
-.config/google_credentials.json
-.env
-
-# Archive (old files)
-archive/
-
-# OS
+# IDE & OS
+.vscode/
+.idea/
 .DS_Store
 Thumbs.db
-
-# Logs
 *.log
 
-# Streamlit
-.streamlit/
-
-# Testing
-tests/
-tests/**
+# Misc / Archive / Tests
 misc/
-archive/data_old/
-frontend/node_modules/
-frontend/dist/
+archive/
+tests/
+
+
+

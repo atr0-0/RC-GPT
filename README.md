@@ -2,121 +2,106 @@
 
 CaseLawGPT is a practical research tool for Indian Supreme Court tort law cases. It provides a modern web interface and backend for searching, filtering, and reading case law, built for lawyers and legal researchers.
 
-
 ## 📁 Project Structure
 
 ```
 CaseLawGPT/
 │
-├── src/                # Backend (FastAPI, document processing)
+├── src/                # Backend (FastAPI) & Processing Scripts
 ├── frontend/           # React web interface
-├── Processing/         # Document processing scripts
-├── docs/               # Documentation and requirements
-├── package.json        # Project manifest
-├── README.md           # This file
-├── vite.config.js      # Frontend config
+├── storage/            # Data, Vector Store, and Processed files
+├── misc/               # Research, Docs, Archive, Tests
+├── requirements.txt    # Python dependencies
+├── Dockerfile          # Backend Docker config
+├── docker-compose.yml  # Container orchestration
+├── setup.ps1           # One-click setup script
+└── run.ps1             # One-click run script
 ```
-
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Python 3.10+
-- Google Cloud credentials (for Gemini API)
-- Case law text files (not included)
+- **Python 3.10+**
+- **Node.js** (for local frontend development)
+- **Google Cloud Credentials** (`google_credentials.json` in root)
+- **Pinecone API Key** (Optional, for Cloud Vector Store)
+- **Docker Desktop** (Optional, for containerized run)
 
-### Setup
+### Option 1: Local Setup (Recommended for Dev)
+
+We have simplified the setup process with PowerShell scripts.
+
+1.  **Setup Environment** (Installs Python venv, dependencies, and Node modules):
+    ```powershell
+    .\setup.ps1
+    ```
+
+2.  **Run Application** (Starts Backend & Frontend):
+    ```powershell
+    .\run.ps1
+    ```
+    - Frontend: http://localhost:3000
+    - Backend API: http://localhost:8000/docs
+
+### Option 2: Docker (Production / Easy Run)
+
+Run the entire stack (Frontend + Backend + Nginx) in containers.
+
 ```powershell
-cd E:\CaseLawGPT
-python -m venv venv
+docker-compose up --build
+```
+- Access the app at http://localhost:3000
+
+---
+
+## ☁️ Cloud Vector Database
+
+This project uses **Pinecone** as the vector database.
+
+1.  **Get API Key**: Sign up at [Pinecone.io](https://www.pinecone.io/) (Free Tier).
+2.  **Configure**: Add your key to `.env`:
+    ```env
+    PINECONE_API_KEY=your-api-key-here
+    ```
+3.  **Build/Update Index**:
+    ```powershell
+    python src/build_vector_store.py
+    ```
+    This will process your documents and upload them to the cloud index.
+
+---
+
+## 🧠 Data Processing
+
+If you need to re-process the raw text files:
+
+```powershell
+# Activate venv first
 .\venv\Scripts\Activate.ps1
-pip install -r docs\requirements.txt
-```
 
-### Configure Credentials
-Place your `google_credentials.json` in `.config/`.
-
-### Process Documents & Build Vector Store
-```powershell
-cd src
-python batch_process.py
-python build_vector_store.py
+# Run processing scripts
+python src/batch_process.py      # Process raw text files -> all_documents.pkl
+python src/build_vector_store.py # Upload to Pinecone
 ```
-
-### Run the Application
-```powershell
-cd frontend
-npm install
-npm run dev
-```
-Backend (FastAPI):
-```powershell
-cd src
-python api.py
-```
-Open:
-- Frontend: http://localhost:3000
-- API Docs: http://localhost:8000/docs
-
 
 ## 🎯 Key Features
 
-- Modern React UI: Dark theme, responsive design
-- Live stats: Database statistics
-- Interactive chat: Messaging experience
-- Query suggestions: Example queries
-- Advanced filters: Year range, tort types, search weights
-- Rich citations: Expandable source excerpts
-
-
-## 📊 Usage Examples
-
-Web Interface:
-1. Filter by year range (1950-2025)
-2. Select tort types
-3. Ask questions about tort law cases
-4. View citations and source excerpts
-
-
-## 🛠️ Development
-
-### Rebuilding After Changes
-```powershell
-cd src
-python build_vector_store.py
-```
-
-
-## 📚 Documentation
-
-- **[QUICK_START.md](docs/QUICK_START.md)** - User guide
-
+- **Modern React UI**: Dark theme, responsive design.
+- **RAG Pipeline**: Retrieval-Augmented Generation using Google Gemini & Pinecone.
+- **Live Stats**: Real-time database statistics.
+- **Advanced Filters**: Year range, tort types.
+- **Rich Citations**: Expandable source excerpts with confidence scores.
 
 ## 🔧 Technology Stack
 
-- Backend: FastAPI, Python 3.10
-- Frontend: React, Vite
-- Vector Store: FAISS
-- Embeddings: Google embedding-001
-
-
-## 📈 Future Improvements
-
-- Citation graph (precedent relationships)
-- Export to PDF
-- Improved filtering and UI
-
+- **Backend**: FastAPI, Python 3.10, LangChain
+- **Frontend**: React, Vite, Tailwind/CSS
+- **AI/ML**: Google Gemini Pro, Pinecone (Serverless Vector DB)
+- **Infrastructure**: Docker, Nginx
 
 ## 📝 License
 
 Internal research project for legal professionals.
 
-
-## 👥 Contact
-
-For questions or improvements, contact the development team.
-
 ---
-
-**Last Updated**: November 14, 2025  
-**Version**: 2.1 (Cleaned for GitHub release)
+**Last Updated**: November 20, 2025

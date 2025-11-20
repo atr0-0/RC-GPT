@@ -1,71 +1,95 @@
 # build_vector_store.py
 import os
 import pickle
+import time
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from langchain_community.vectorstores import FAISS
+from langchain_pinecone import PineconeVectorStore
+from pinecone import Pinecone, ServerlessSpec
 
 # --- Configuration ---
-# Paths for new organized structure
-PROCESSED_DATA_FILE = "../storage/processed_data/all_documents.pkl"
-VECTOR_STORE_PATH = "../storage/vector_store"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROCESSED_DATA_FILE = os.path.join(BASE_DIR, "storage", "processed_data", "all_documents.pkl")
+INDEX_NAME = "caselawgpt-index"
 
 def main():
     """
-    Loads processed documents, generates embeddings, and saves the
-    FAISS vector store to disk.
+    Loads processed documents and uploads them to Pinecone.
     """
-    print("--- Building Vector Store ---")
+    print("--- Building Cloud Vector Store (Pinecone) ---")
 
-    # 1. Load the processed documents
-    print(f"[1/3] Loading processed documents from {PROCESSED_DATA_FILE}...")
-    with open(PROCESSED_DATA_FILE, 'rb') as f:
-        all_documents = pickle.load(f)
-    print(f"    Loaded {len(all_documents)} document chunks.")
+    # 0. Check Environment Variables
+    api_key = os.getenv("PINECONE_API_KEY")
+    if not api_key:
+        print("ERROR: PINECONE_API_KEY environment variable not set.")
+        return
 
-    # 2. Initialize the embedding model
-    print("[2/3] Initializing Google Generative AI Embeddings model...")
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
-    print("    Model initialized.")
-
-    # 3. Create and save the FAISS vector store in batches to avoid rate limiting
-    print("[3/3] Creating FAISS vector store from documents...")
-    print("    Using batched approach to avoid rate limits...")
+    # 1. Initialize Pinecone
+    print("[1/4] Initializing Pinecone...")
+    pc = Pinecone(api_key=api_key)
     
-    batch_size = 500
+    # Check if index exists, if not create it
+    existing_indexes = [index.name for index in pc.list_indexes()]
+    if INDEX_NAME not in existing_indexes:
+        print(f"    Creating new index '{INDEX_NAME}'...")
+        pc.create_index(
+            name=INDEX_NAME,
+            dimension=768, # Dimension for Google embedding-001
+            metric="cosine",
+            spec=ServerlessSpec(
+                cloud="aws",
+                region="us-east-1"
+            )
+        )
+        # Wait for index to be ready
+        while not pc.describe_index(INDEX_NAME).status['ready']:
+            time.sleep(1)
+    else:
+        print(f"    Index '{INDEX_NAME}' already exists.")
+
+    # 2. Load the processed documents
+    print(f"[2/4] Loading processed documents from {PROCESSED_DATA_FILE}...")
+    try:
+        with open(PROCESSED_DATA_FILE, 'rb') as f:
+            all_documents = pickle.load(f)
+        print(f"    Loaded {len(all_documents)} document chunks.")
+    except FileNotFoundError:
+        print(f"ERROR: Could not find {PROCESSED_DATA_FILE}")
+        return
+
+    # 3. Initialize the embedding model
+    print("[3/4] Initializing Google Generative AI Embeddings model...")
+    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+
+    # 4. Upload to Pinecone
+    print("[4/4] Uploading vectors to Pinecone...")
+    print("    Using batched approach...")
+    
+    batch_size = 100
     total_batches = (len(all_documents) + batch_size - 1) // batch_size
     
-    vector_store = None
     for i in range(0, len(all_documents), batch_size):
         batch = all_documents[i:i+batch_size]
         batch_num = (i // batch_size) + 1
-        print(f"    Processing batch {batch_num}/{total_batches} ({len(batch)} documents)...")
+        print(f"    Uploading batch {batch_num}/{total_batches} ({len(batch)} documents)...")
         
         try:
-            if vector_store is None:
-                # Create initial vector store
-                vector_store = FAISS.from_documents(batch, embeddings)
-            else:
-                # Add to existing vector store
-                batch_store = FAISS.from_documents(batch, embeddings)
-                vector_store.merge_from(batch_store)
-            
-            # Brief pause to avoid rate limiting
-            import time
-            if i + batch_size < len(all_documents):
-                time.sleep(2)
+            PineconeVectorStore.from_documents(
+                batch, 
+                embeddings, 
+                index_name=INDEX_NAME
+            )
+            time.sleep(1) # Rate limit safety
         except Exception as e:
             print(f"    ERROR in batch {batch_num}: {e}")
-            print(f"    Continuing with remaining batches...")
             continue
-    
-    if vector_store is None:
-        print("ERROR: Failed to create vector store!")
-        return
-    
-    # Save the vector store locally
-    print(f"    Saving vector store to '{VECTOR_STORE_PATH}'...")
-    vector_store.save_local(VECTOR_STORE_PATH)
-    print(f"--- Vector store created and saved successfully! ---")
+            
+    print(f"--- Build complete! Vectors uploaded to index '{INDEX_NAME}' ---")
 
 if __name__ == "__main__":
     main()
+

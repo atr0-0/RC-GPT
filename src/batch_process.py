@@ -2,12 +2,20 @@
 import os
 import glob
 import pickle
+from typing import List
+from dotenv import load_dotenv
 import process_doc as phase1
+
+# Load environment variables
+load_dotenv()
+
+from langchain_core.documents import Document
 
 # --- Configuration ---
 # Paths for new organized structure
-DATA_DIR = "../storage/data"
-OUTPUT_FILE = "../storage/processed_data/all_documents.pkl"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.join(BASE_DIR, "storage", "data")
+OUTPUT_FILE = os.path.join(BASE_DIR, "storage", "processed_data", "all_documents.pkl")
 
 def main():
     """
