@@ -42,7 +42,7 @@ const Message = ({ message }: MessageProps) => {
 
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"} mb-4`}>
-      <div className={`max-w-[85%] ${isUser ? "order-2" : "order-1"}`}>
+      <div className={`max-w-[85%] ${isUser ? "order-2" : "order-1"} min-w-0`}>
         <div className="flex items-start gap-3 mb-2">
           <Avatar className={`${isUser ? "order-2" : "order-1"} flex-shrink-0`}>
             <AvatarFallback
@@ -77,10 +77,10 @@ const Message = ({ message }: MessageProps) => {
               : isError
               ? "bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800"
               : "bg-muted/50 border-border"
-          }`}
+          } overflow-hidden`}
         >
           <CardContent className="p-4">
-            <div className="prose prose-sm dark:prose-invert max-w-none">
+            <div className="prose prose-sm dark:prose-invert max-w-none break-words">
               <ReactMarkdown remarkPlugins={[remarkGfm]}>
                 {message.content || ""}
               </ReactMarkdown>

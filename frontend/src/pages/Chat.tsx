@@ -9,6 +9,7 @@ import Sidebar from "@/components/Sidebar";
 import QuerySuggestions from "@/components/QuerySuggestions";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
+import LightRays from "@/components/LightRays";
 
 interface ChatMessage {
   role: "user" | "assistant";
@@ -138,9 +139,9 @@ const Chat = () => {
   );
 
   return (
-    <div className="flex flex-col h-screen bg-background">
+    <div className="flex flex-col h-screen bg-background relative">
       {/* Header */}
-      <header className="border-b bg-card">
+      <header className="border-b bg-card relative z-10">
         <div className="flex items-center gap-4 p-4">
           <Button
             variant="ghost"
@@ -162,7 +163,7 @@ const Chat = () => {
       {/* StatsBar removed */}
 
       {/* Main Content */}
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden relative z-10">
         {/* Sidebar */}
         {sidebarOpen && (
           <Sidebar
@@ -175,9 +176,27 @@ const Chat = () => {
         )}
 
         {/* Chat Area */}
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col min-w-0 relative">
+          {/* Animated Background LightRays */}
+          <div className="absolute inset-0 z-0 w-full h-full overflow-hidden pointer-events-none">
+            <div className="absolute inset-0 opacity-30">
+              <LightRays
+                raysOrigin="top-center"
+                raysColor="#00ffff"
+                raysSpeed={1.5}
+                lightSpread={0.8}
+                rayLength={1.2}
+                followMouse={true}
+                mouseInfluence={0.1}
+                noiseAmount={0.1}
+                distortion={0.05}
+                className="custom-rays"
+              />
+            </div>
+          </div>
+
           {/* Messages */}
-          <ScrollArea className="flex-1 p-4">
+          <ScrollArea className="flex-1 p-4 relative z-10">
             {!hasSubstantiveAnswer && messages.length === 0 && (
               <QuerySuggestions onSuggestionClick={handleSuggestionClick} />
             )}
@@ -197,7 +216,7 @@ const Chat = () => {
           </ScrollArea>
 
           {/* Input */}
-          <div className="border-t bg-card p-4">
+          <div className="border-t bg-card p-4 relative z-10">
             <form
               onSubmit={(e) => {
                 e.preventDefault();

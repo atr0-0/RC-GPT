@@ -8,7 +8,7 @@ interface QuerySuggestionsProps {
 const suggestions = [
   {
     icon: Hospital,
-    text: "Cases on medical negligence compensation",
+    text: "Cases on medical negligence",
     query: "Cases on medical negligence compensation",
   },
   {
@@ -43,10 +43,10 @@ const QuerySuggestions = ({ onSuggestionClick }: QuerySuggestionsProps) => {
     <div className="flex flex-col items-center justify-center p-8 space-y-6">
       <div className="text-center space-y-2">
         <h3 className="text-2xl font-bold text-foreground">
-          💡 Try these example queries:
+          Try these example queries
         </h3>
         <p className="text-muted-foreground">
-          Click any suggestion to start searching for relevant case laws
+          {/* Click any suggestion to start searching for relevant case laws */}
         </p>
       </div>
 
@@ -57,10 +57,12 @@ const QuerySuggestions = ({ onSuggestionClick }: QuerySuggestionsProps) => {
             <Button
               key={index}
               variant="outline"
-              className="h-auto py-4 px-4 justify-start text-left hover:bg-primary/10 hover:border-primary transition-colors"
+              className="h-auto py-4 px-4 justify-start text-left hover:bg-primary/10 hover:border-primary transition-colors group"
               onClick={() => onSuggestionClick(suggestion.query)}
             >
-              <Icon className="h-5 w-5 mr-3 flex-shrink-0 text-primary" />
+              <div className="p-2 rounded-lg bg-primary/10 backdrop-blur-sm border border-primary/20 mr-3 group-hover:bg-primary/20 transition-colors">
+                <Icon className="h-5 w-5 text-primary" />
+              </div>
               <span className="text-sm">{suggestion.text}</span>
             </Button>
           );
