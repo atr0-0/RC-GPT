@@ -43,7 +43,7 @@ const Landing = () => {
           <div className="flex items-center gap-2">
             <Scale className="h-8 w-8 text-primary" />
             <span className="text-2xl font-bold text-foreground">
-              CaseLawGPT
+              RC-GPT
             </span>
           </div>
           <Link to="/chat">
@@ -60,10 +60,10 @@ const Landing = () => {
         <div className="container mx-auto px-4 py-24 md:py-32 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-5xl md:text-6xl font-bold mb-6 text-foreground">
-              AI Legal Research for Indian Tort Law
+              India's First Case Law Retrieval AI Agent
             </h1>
             <p className="text-xl text-muted-foreground mb-8">
-              Access 690+ Supreme Court tort law cases instantly. Get AI-powered
+              Get AI-powered
               insights, precise citations, and relevant case law to strengthen
               your legal arguments.
             </p>
@@ -73,7 +73,7 @@ const Landing = () => {
                   size="lg"
                   className="bg-primary/80 hover:bg-primary/90 transition-all duration-300 hover:scale-110 backdrop-blur-sm"
                 >
-                  Start Researching
+                  Try RC-GPT
                 </Button>
               </Link>
             </div>
@@ -86,7 +86,7 @@ const Landing = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-              Why Choose CaseLawGPT?
+              Why Choose RC-GPT?
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Powerful AI capabilities designed specifically for legal
@@ -260,7 +260,7 @@ const Landing = () => {
                 Ready to Transform Your Legal Research?
               </h2>
               <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Join lawyers across India who are using CaseLawGPT to find
+                Join lawyers across India who are using RC-GPT to find
                 relevant precedents faster.
               </p>
               <Link to="/chat">
@@ -268,7 +268,7 @@ const Landing = () => {
                   size="lg"
                   className="bg-primary/60 hover:bg-primary/70 transition-all duration-300 hover:scale-110 backdrop-blur-sm"
                 >
-                  Start Using CaseLawGPT
+                  Start Using RC-GPT
                 </Button>
               </Link>
             </CardContent>
@@ -280,7 +280,7 @@ const Landing = () => {
       <footer className="border-t border-border py-8 relative z-10">
         <div className="container mx-auto px-4 text-center text-muted-foreground">
           <p>
-            &copy; 2025 CaseLawGPT. AI Legal Research Assistant for Indian Tort
+            &copy; 2025 RC-GPT. AI Legal Research Assistant for Indian Tort
             Law.
           </p>
         </div>

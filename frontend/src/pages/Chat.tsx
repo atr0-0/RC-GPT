@@ -152,7 +152,7 @@ const Chat = () => {
           </Button>
           <div className="flex items-center gap-2">
             <Scale className="h-6 w-6 text-primary" />
-            <h1 className="text-xl font-bold text-foreground">CaseLawGPT</h1>
+            <h1 className="text-xl font-bold text-foreground">RC-GPT</h1>
           </div>
           <p className="text-sm text-muted-foreground hidden md:block">
             AI Legal Research Assistant for Indian Tort Law

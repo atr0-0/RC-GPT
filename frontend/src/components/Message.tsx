@@ -73,15 +73,28 @@ const Message = ({ message }: MessageProps) => {
         <Card
           className={`${
             isUser
-              ? "bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800"
+              ? "bg-primary text-primary-foreground border-primary"
               : isError
-              ? "bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800"
-              : "bg-muted/50 border-border"
+              ? "bg-destructive/10 border-destructive/20"
+              : "bg-card border-border shadow-sm"
           } overflow-hidden`}
         >
           <CardContent className="p-4">
-            <div className="prose prose-sm dark:prose-invert max-w-none break-words">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            <div className="prose prose-sm dark:prose-invert max-w-none break-words leading-relaxed">
+              <ReactMarkdown 
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  h1: ({node, ...props}) => <h1 className="text-xl font-bold mt-4 mb-2" {...props} />,
+                  h2: ({node, ...props}) => <h2 className="text-lg font-semibold mt-3 mb-2" {...props} />,
+                  h3: ({node, ...props}) => <h3 className="text-base font-semibold mt-2 mb-1" {...props} />,
+                  ul: ({node, ...props}) => <ul className="list-disc pl-4 my-2 space-y-1" {...props} />,
+                  ol: ({node, ...props}) => <ol className="list-decimal pl-4 my-2 space-y-1" {...props} />,
+                  li: ({node, ...props}) => <li className="pl-1 marker:text-muted-foreground" {...props} />,
+                  p: ({node, ...props}) => <p className="my-2" {...props} />,
+                  blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-primary/50 pl-4 italic my-2 text-muted-foreground" {...props} />,
+                  code: ({node, ...props}) => <code className="bg-muted px-1 py-0.5 rounded text-sm font-mono" {...props} />,
+                }}
+              >
                 {message.content || ""}
               </ReactMarkdown>
             </div>
@@ -111,51 +124,56 @@ const Message = ({ message }: MessageProps) => {
                 )}
               </Button>
             </CollapsibleTrigger>
-            <CollapsibleContent className="space-y-3 mt-3">
+            <CollapsibleContent className="space-y-4 mt-4">
               {message.sources.map((source, index) => {
                 const badge = getSectionBadge(source.section_type);
                 return (
                   <Card
                     key={index}
-                    className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-950 dark:to-orange-950 border-yellow-200 dark:border-yellow-800"
+                    className="bg-card border-border shadow-sm hover:shadow-md transition-shadow duration-200"
                   >
-                    <CardHeader className="pb-3">
-                      <div className="flex items-start justify-between gap-2 flex-wrap">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-1">
-                            <Badge variant="outline" className="text-xs">
-                              Source {index + 1}
-                            </Badge>
-                            <Badge className="bg-green-500 hover:bg-green-600 text-white text-xs">
-                              {source.confidence}
-                            </Badge>
-                          </div>
-                          <CardTitle className="text-sm font-semibold">
-                            {source.case_name}
-                          </CardTitle>
+                    <CardHeader className="pb-2 border-b bg-muted/30">
+                      <div className="flex items-center justify-between gap-2 mb-2">
+                        <div className="flex items-center gap-2">
+                          <Badge variant="outline" className="font-mono text-xs">
+                            #{index + 1}
+                          </Badge>
+                          <Badge 
+                            variant="secondary" 
+                            className="text-xs font-medium"
+                            style={{ 
+                              backgroundColor: `${badge.color}20`, 
+                              color: badge.color,
+                              borderColor: `${badge.color}40`
+                            }}
+                          >
+                            {badge.label}
+                          </Badge>
                         </div>
-                      </div>
-
-                      {source.citation && source.citation !== "N/A" && (
-                        <Badge
-                          variant="secondary"
-                          className="mt-2 w-fit text-xs"
-                        >
-                          📖 {source.citation}
+                        <Badge className="bg-green-600/90 hover:bg-green-600 text-white text-xs font-mono">
+                          {source.confidence} Match
                         </Badge>
+                      </div>
+                      
+                      <CardTitle className="text-base font-bold leading-tight text-foreground">
+                        {source.case_name}
+                      </CardTitle>
+                      
+                      {source.citation && source.citation !== "N/A" && (
+                        <div className="flex items-center gap-1.5 mt-2 text-sm text-muted-foreground font-medium">
+                          <BookOpen className="h-3.5 w-3.5" />
+                          <span>{source.citation}</span>
+                        </div>
                       )}
-
-                      <Badge
-                        className="mt-2 w-fit text-xs text-white"
-                        style={{ backgroundColor: badge.color }}
-                      >
-                        {badge.label}
-                      </Badge>
                     </CardHeader>
-                    <CardContent className="pt-0">
-                      <p className="text-sm text-muted-foreground leading-relaxed">
-                        {source.excerpt}
-                      </p>
+                    
+                    <CardContent className="pt-4">
+                      <div className="relative">
+                        <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary/20 rounded-full" />
+                        <p className="text-sm text-muted-foreground leading-relaxed pl-4 italic">
+                          "{source.excerpt}"
+                        </p>
+                      </div>
                     </CardContent>
                   </Card>
                 );
