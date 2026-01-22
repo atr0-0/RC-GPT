@@ -1,8 +1,8 @@
-# CaseLawGPT - Supreme Court Tort Law Research Tool
+# RC-GPT - Supreme Court Tort Law Research Tool
 
-CaseLawGPT is a practical research tool for Indian Supreme Court tort law cases. It provides a modern web interface and backend for searching, filtering, and reading case law, built for lawyers and legal researchers.
+RC-GPT is a practical research tool for Indian Supreme Court tort law cases. It provides a modern web interface and backend for searching, filtering, and reading case law, built for lawyers and legal researchers.
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 CaseLawGPT/
@@ -18,7 +18,7 @@ CaseLawGPT/
 └── run.ps1             # One-click run script
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - **Python 3.10+**
@@ -71,7 +71,7 @@ This project uses **Pinecone** as the vector database.
 
 ---
 
-## 🧠 Data Processing
+## Data Processing
 
 If you need to re-process the raw text files:
 
@@ -84,7 +84,7 @@ python src/batch_process.py      # Process raw text files -> all_documents.pkl
 python src/build_vector_store.py # Upload to Pinecone
 ```
 
-## 🎯 Key Features
+## Key Features
 
 - **Modern React UI**: Dark theme, responsive design.
 - **RAG Pipeline**: Retrieval-Augmented Generation using Google Gemini & Pinecone.
@@ -92,16 +92,15 @@ python src/build_vector_store.py # Upload to Pinecone
 - **Advanced Filters**: Year range, tort types.
 - **Rich Citations**: Expandable source excerpts with confidence scores.
 
-## 🔧 Technology Stack
+## Technology Stack
 
 - **Backend**: FastAPI, Python 3.10, LangChain
 - **Frontend**: React, Vite, Tailwind/CSS
 - **AI/ML**: Google Gemini Pro, Pinecone (Serverless Vector DB)
 - **Infrastructure**: Docker, Nginx
 
-## 📝 License
+## License
 
 Internal research project for legal professionals.
 
 ---
-**Last Updated**: November 20, 2025
