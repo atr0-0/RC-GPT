@@ -23,7 +23,6 @@ interface Filters {
   yearRange: [number, number];
   tortTypes: string[];
   maxSources: number;
-  semanticWeight: number;
 }
 
 const Chat = () => {
@@ -35,7 +34,6 @@ const Chat = () => {
     yearRange: [1950, 2025],
     tortTypes: [],
     maxSources: 5,
-    semanticWeight: 0.7,
   });
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();

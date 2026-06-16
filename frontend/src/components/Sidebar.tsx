@@ -18,7 +18,6 @@ interface Filters {
   yearRange: [number, number];
   tortTypes: string[];
   maxSources: number;
-  semanticWeight: number;
 }
 
 interface SidebarProps {
@@ -199,28 +198,6 @@ const Sidebar = ({
                     />
                   </div>
 
-                  <Separator />
-
-                  {/* Semantic Weight */}
-                  <div className="space-y-2">
-                    <Label className="text-xs">
-                      Semantic Weight:{" "}
-                      {(filters.semanticWeight * 100).toFixed(0)}%
-                    </Label>
-                    <Slider
-                      min={0}
-                      max={100}
-                      step={10}
-                      value={[filters.semanticWeight * 100]}
-                      onValueChange={(value) =>
-                        onFilterChange({ semanticWeight: value[0] / 100 })
-                      }
-                    />
-                    <p className="text-xs text-muted-foreground">
-                      Keyword: {((1 - filters.semanticWeight) * 100).toFixed(0)}
-                      %
-                    </p>
-                  </div>
                 </CardContent>
               </CollapsibleContent>
             </Collapsible>
