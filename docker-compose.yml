@@ -3,21 +3,22 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: caselawgpt-backend
+    container_name: rcgpt-backend
     ports:
       - "8000:8000"
     volumes:
       - ./storage:/app/storage
-      - ./google_credentials.json:/app/google_credentials.json
     environment:
-      - GOOGLE_APPLICATION_CREDENTIALS=/app/google_credentials.json
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - PINECONE_API_KEY=${PINECONE_API_KEY}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-https://rcgpt.vercel.app,http://localhost:3000}
     restart: unless-stopped
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: caselawgpt-frontend
+    container_name: rcgpt-frontend
     ports:
       - "3000:80"
     depends_on:
