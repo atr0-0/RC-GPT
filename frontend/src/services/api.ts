@@ -22,8 +22,6 @@ export interface QueryResponse {
   search_type: string;
 }
 
-// StatsResponse and stats endpoint removed from UI usage
-
 export interface HealthResponse {
   status: string;
   retrieval_chain_loaded: boolean;
@@ -31,15 +29,15 @@ export interface HealthResponse {
   documents_loaded: number;
 }
 
-// API client
+// In production (Vercel), VITE_API_BASE_URL must point to the deployed backend
+// (e.g. https://rcgpt-backend.fly.dev). In local dev the Vite proxy rewrites
+// /api → http://localhost:8000, so the fallback "/api" just works.
 const api = axios.create({
-  baseURL: "/api",
+  baseURL: import.meta.env.VITE_API_BASE_URL ?? "/api",
   headers: {
     "Content-Type": "application/json",
   },
 });
-
-// API functions
 
 export const processQuery = async (
   queryData: QueryRequest
